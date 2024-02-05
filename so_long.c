@@ -21,7 +21,12 @@ int check_new_pos(t_data *data, int i, int j)
         return(0);
     data->map->map[data->player.i][data->player.j] = '0';
     if (data->map->map[i][j] == 'C')
+    {
         data->map->collectible--;
+        replace_player(data);
+        if (data->map->collectible == 0)
+            replace_exit(data);
+    }
     if (data->map->map[i][j] == 'E' && data->map->collectible == 0)
     {
         data->map->map[i][j] = 'P';
@@ -50,13 +55,13 @@ void move_player(t_data *data, int i, int j)
         if (result == 1)
         {
             data->step++;
-            ft_printf("Steps :%d\n", data->step);
+            ft_printf("Steps : %d\n", data->step);
         }
         if (result == 2)
             destroy_window(data);
     }
     if (result == 0)
-        ft_printf("Error\n%s","You cannot move there.\n");
+        ft_printf("You cannot move this way.\n");
 }
 
 int key_pressed(int key, t_data *data)
@@ -94,6 +99,6 @@ int main(int argc, char **argv)
     data.step = 0;
     create_sprites(&data);
     mlx_hook(data.win_ptr, 2, 1L << 0, key_pressed, &data);
+    mlx_hook(data.win_ptr, 17, 1L << 0, destroy_window, &data);
     mlx_loop(data.mlx_ptr);
-    system ("leaks so_long");
 }

@@ -12,6 +12,47 @@
 
 #include "includes/so_long.h"
 
+void replace_player(t_data *data)
+{
+    int width;
+    int height;
+
+    width = WIDTH;
+    height = HEIGHT;
+    data->player.player = mlx_xpm_file_to_image(data->mlx_ptr, 
+                                    "sprites/player2.xpm", &width, &height);
+    if (!data->player.player)
+        destroy_window_error("Sprite not found.", data);
+}
+
+void replace_exit(t_data *data)
+{
+    int width;
+    int height;
+    int i;
+    int j;
+
+    width = WIDTH;
+    height = HEIGHT;
+    i = 0;
+    data->exit = mlx_xpm_file_to_image(data->mlx_ptr, "sprites/exit-open.xpm", 
+                                        &width, &height);
+    if (!data->exit)
+        destroy_window_error("Sprite not found.", data);
+    while (i <data->map->line)
+    {
+        j = 0;
+        while (data->map->map[i][j] != 0)
+        {
+            if (data->map->map[i][j] == 'E')
+                mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, 
+                                data->exit, j * HEIGHT, i * WIDTH);
+            j++;
+        }
+        i++;
+    }
+}
+
 void fill_first_map(t_data *data)
 {
     int i;
@@ -83,5 +124,8 @@ void create_sprites(t_data *data)
                                 &width, &height);
     data->player.player = mlx_xpm_file_to_image(data->mlx_ptr, 
                                 "sprites/player.xpm", &width, &height);
+    if (!data->wall || !data->empty_space || !data->collectible 
+        || !data->exit || !data->player.player)
+        destroy_window_error("Sprite not found", data);
     fill_background(data);
 }

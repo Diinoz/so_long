@@ -55,7 +55,7 @@ void fill_map_value(t_map *map, int i)
         else if (map->map[map->line][i] == '1')
             map->wall++;
         else if (map->map[map->line][i] != 0)
-            free_map("Wrong character.", map);
+            free_map("Wrong character in the file.", map);
         i++;
     }
 }
@@ -86,20 +86,12 @@ void check_file(char *file, t_map *map)
 
 	ext = ft_strrchr(file, '.');
 	if (ext == 0)
-	{
-		ft_printf("Error\n%s", "Wrong file name.");
-		free (map);
-		exit(EXIT_FAILURE);
-	}
+        free_map("Wrong file name.", map);
 	len = ft_strlen(ext);
 	if (len < 4)
 		len = 4;
 	if (!ext || ft_strncmp(ext, ".ber", len) != 0)
-	{
-		ft_printf("Error\n%s", "Wrong file name.");
-		free(map);
-		exit(EXIT_FAILURE);
-	}
+        free_map("Wrong file name.", map);
 }
 
 t_map *create_map(char *file)

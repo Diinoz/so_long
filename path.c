@@ -21,9 +21,10 @@ void check_exit(t_map *map)
     while (i < map->line)
     {
         j = 0;
-        while (map->path[i][j] != 0 && map->path[i][j] != '\n' && map->path[i][j] != 'E')
+        while (map->path_exit[i][j] != 0 && map->path_exit[i][j] != '\n' 
+                && map->path_exit[i][j] != 'E')
             j++;
-        if (map->path[i][j] == 'E')
+        if (map->path_exit[i][j] == 'E')
             free_map("Impossible to reach the exit.", map);
         else
             i++;
@@ -46,21 +47,20 @@ void check_collectibles(t_map *map)
         else
             i++;
     }
-    check_exit(map);
 }
 
-static int travel_map(int i, int j, char **path)
+static int travel_map(int i, int j, char **path, char c)
 {
-    if (path[i][j] != '1')
+    if (path[i][j] != '1' && path[i][j] != c)
     {
         path[i][j] = '1';
-        if (travel_map(i, j - 1, path))
+        if (travel_map(i, j - 1, path, c))
             return (1);
-        else if (travel_map(i + 1, j, path))
+        else if (travel_map(i + 1, j, path, c))
             return (1);
-        else if (travel_map(i - 1, j, path))
+        else if (travel_map(i - 1, j, path, c))
             return (1);
-        else if (travel_map(i, j + 1, path))
+        else if (travel_map(i, j + 1, path, c))
             return (1);
     }
     return (0);
@@ -81,7 +81,10 @@ void check_path(t_map *map)
         if (map->path[i][j] != 'P')
             i++;
     }
-    travel_map(i, j, map->path);
+    travel_map(i, j, map->path, 'E');
     check_collectibles(map);
+    travel_map(i, j, map->path_exit, 'x');
+    check_exit(map);
     free_tab(map->path);
+    free_tab(map->path_exit);
 }

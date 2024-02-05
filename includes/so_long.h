@@ -35,6 +35,7 @@ typedef struct s_map
 	int		line_size;
 	char	**map;
     char    **path;
+    char    **path_exit;
 }			t_map;
 
 typedef struct s_player
@@ -68,7 +69,10 @@ void check_path(t_map *map);
 void initialize_map(char *file, t_map *map);
 void create_sprites(t_data *data);
 int destroy_window(t_data *data);
+void destroy_window_error(char *error, t_data *data);
 void free_map(char *error, t_map *map);
 void free_tab(char **map);
+void replace_exit(t_data *data);
+void replace_player(t_data *data);
 
 #endif

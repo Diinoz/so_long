@@ -31,8 +31,32 @@ void free_map(char *error, t_map *map)
         free_tab(map->map);
     if (map->path != 0)
         free_tab(map->path);
-    ft_printf("Error\n%s", error);
+    if (map->path_exit != 0)
+        free_tab(map->path_exit);
+    write(2, "Error\n", 6);
+    write(2, error, ft_strlen(error));
     free(map);
+    exit(EXIT_FAILURE);
+}
+
+void destroy_window_error(char *error, t_data *data)
+{
+    if (data->collectible)
+        mlx_destroy_image(data->mlx_ptr, data->collectible);
+    if (data->empty_space)
+        mlx_destroy_image(data->mlx_ptr, data->empty_space);
+    if (data->exit)
+        mlx_destroy_image(data->mlx_ptr, data->exit);
+    if (data->player.player)
+        mlx_destroy_image(data->mlx_ptr, data->player.player);
+    if (data->wall)
+        mlx_destroy_image(data->mlx_ptr, data->wall);
+    mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+    write(2, "Error\n", 6);
+    write(2, error, ft_strlen(error));
+    free(data->mlx_ptr);
+    free_tab(data->map->map);
+    free(data->map);
     exit(EXIT_FAILURE);
 }
 
@@ -45,7 +69,7 @@ int destroy_window(t_data *data)
     mlx_destroy_image(data->mlx_ptr, data->wall);
     mlx_destroy_window(data->mlx_ptr, data->win_ptr);
     free(data->mlx_ptr);
-    free(data->map->map);
+    free_tab(data->map->map);
     free(data->map);
     exit(0);
 }
