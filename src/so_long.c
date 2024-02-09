@@ -36,7 +36,7 @@ void	move_player(t_data *data, int i, int j)
 	int	result;
 
 	result = check_new_pos(data, i, j);
-	if (result == 1 || result == 2)
+	if (result == 1)
 	{
 		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, \
 		data->empty_space, data->player.j * HEIGHT, data->player.i * WIDTH);
