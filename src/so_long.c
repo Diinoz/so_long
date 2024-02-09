@@ -47,14 +47,11 @@ void	move_player(t_data *data, int i, int j)
 		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, \
 							data->player.player, data->player.j * HEIGHT, \
 							data->player.i * WIDTH);
-		if (result == 1)
-		{
-			data->step++;
-			ft_printf("Steps : %d\n", data->step);
-		}
-		if (result == 2)
-			destroy_window(data);
+		data->step++;
+		ft_printf("Steps : %d\n", data->step);
 	}
+	if (result == 2)
+		destroy_window(data);
 	if (result == 0)
 		ft_printf("You cannot move this way.\n");
 }
