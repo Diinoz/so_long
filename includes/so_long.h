@@ -15,12 +15,8 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
-/*# include <X11/X.h>
-# include <X11/keysym.h>*/
 # include "../mlx/mlx.h"
 # include "libft/libft.h"
-# include "get_next_line/get_next_line.h"
-# include "printf/libftprintf.h"
 # define WIDTH 64
 # define HEIGHT 64
 
@@ -34,45 +30,44 @@ typedef struct s_map
 	int		line;
 	int		line_size;
 	char	**map;
-    char    **path;
-    char    **path_exit;
+	char    **path;
+	char    **path_exit;
 }			t_map;
 
 typedef struct s_player
 {
-    int     i;
-    int     j;
-    void    *player;
-}           t_player;
+	int		i;
+	int		j;
+	void	*player;
+}			t_player;
 
 typedef struct s_data
 {
-    void        *mlx_ptr;
-    void        *win_ptr;
-    void        *wall;
-    void        *empty_space;
-    void        *collectible;
-    int         step;
-    void        *exit;
-    t_player    player;
-    t_map       *map;
-}               t_data;
+	void		*mlx_ptr;
+	void		*win_ptr;
+	void		*wall;
+	void		*empty_space;
+	void		*collectible;
+	int			step;
+	void		*exit;
+	t_player	player;
+	t_map		*map;
+}				t_data;
 
-t_map *create_map(char *file);
-void check_map_value(t_map *map);
-void fill_map_value(t_map *map, int i);
-void parsing(t_map *map);
-void check_file(char *file, t_map *map);
-void check_exit(t_map *map);
-void check_collectibles(t_map *map);
-void check_path(t_map *map);
-void initialize_map(char *file, t_map *map);
-void create_sprites(t_data *data);
-int destroy_window(t_data *data);
-void destroy_window_error(char *error, t_data *data);
-void free_map(char *error, t_map *map);
-void free_tab(char **map);
-void replace_exit(t_data *data);
-void replace_player(t_data *data);
+t_map	*create_map(char *file);
+void	check_map_value(t_map *map);
+void	fill_map_value(t_map *map, int i);
+void	parsing(t_map *map);
+void	check_file(char *file, t_map *map);
+void	check_exit(t_map *map);
+void	check_collectibles(t_map *map);
+void	check_path(t_map *map);
+void	initialize_map(char *file, t_map *map);
+void	create_sprites(t_data *data);
+int		destroy_window(t_data *data);
+void	destroy_window_error(char *error, t_data *data);
+void	free_map(char *error, t_map *map);
+void	free_tab(char **map);
+void	create_player(t_data *data);
 
 #endif

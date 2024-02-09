@@ -11,40 +11,35 @@
 # **************************************************************************** #
 
 NAME = so_long
+
 CC = gcc
+
 CFLAGS = -Wall -Wextra -Werror
+
 MLXFLAGS = -lmlx -framework AppKit -framework OpenGL
+
 RM = rm -f
-SRC = create_map.c parsing.c path.c so_long.c create_window.c clear.c
+
+SRC = src/create_map.c src/parsing.c src/path.c \
+		src/so_long.c src/create_window.c src/clear.c
+
 OBJS = $(SRC:.c=.o)
-INCLUDES = -Iincludes -Imlx
-GNL = ./includes/get_next_line/get_next_line.a
-PRINTF = ./includes/printf/libftprintf.a
-LIBFT = ./includes/libft/libft.a
 
 all: $(NAME)
-$(NAME): start
-	$(CC) $(CFLAGS) -o $(NAME) $(SRC) $(MLXFLAGS) \
-	$(INCLUDES) $(GNL) $(PRINTF) $(LIBFT)
-%.o: %.c
-	$(CC) $(CFLAGS) -c -o $@ $< -I.
 
-start :
-	make -C includes/printf all
-	make -C includes/get_next_line all
-	make -C includes/libft all
+$(NAME): $(OBJS)
+	make -C includes/libft
+	$(CC) $(CFLAGS) -o $(NAME) $(SRC) includes/libft/*.o $(MLXFLAGS) 
+%.o: %.c
+	$(CC) $(CFLAGS) -c -o $@ $< -I. -Ilibft
 
 clean:
+	make -C includes/libft clean
 	$(RM) $(OBJS)
-	make -C includes/printf all
-	make -C includes/get_next_line all
-	make -C includes/libft all
 
 fclean: clean
+	make -C includes/libft fclean
 	$(RM) $(NAME)
-	make -C includes/printf fclean
-	make -C includes/get_next_line fclean
-	make -C includes/libft all
 
 re: fclean all
 
