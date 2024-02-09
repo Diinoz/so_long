@@ -12,27 +12,29 @@
 
 #include "../includes/so_long.h"
 
-void	free_tab(char **map)
+char	**free_tab(char **map)
 {
 	int	i;
 
 	i = 0;
-	while (map[i] != 0)
+	while (map[i] != NULL)
 	{
 		free(map[i]);
 		i++;
 	}
 	free(map);
+	map = NULL;
+	return (map);
 }
 
 void	free_map(char *error, t_map *map)
 {
-	if (map->map != 0)
-		free_tab(map->map);
-	if (map->path != 0)
-		free_tab(map->path);
-	if (map->path_exit != 0)
-		free_tab(map->path_exit);
+	if (map->map != NULL)
+		map->map = free_tab(map->map);
+	if (map->path != NULL)
+		map->path = free_tab(map->path);
+	if (map->path_exit != NULL)
+		map->path_exit = free_tab(map->path_exit);
 	write(2, "Error\n", 6);
 	write(2, error, ft_strlen(error));
 	free(map);
@@ -55,7 +57,7 @@ void	destroy_window_error(char *error, t_data *data)
 	write(2, "Error\n", 6);
 	write(2, error, ft_strlen(error));
 	free(data->mlx_ptr);
-	free_tab(data->map->map);
+	data->map->map = free_tab(data->map->map);
 	free(data->map);
 	exit(EXIT_FAILURE);
 }
@@ -69,7 +71,7 @@ int	destroy_window(t_data *data)
 	mlx_destroy_image(data->mlx_ptr, data->wall);
 	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	free(data->mlx_ptr);
-	free_tab(data->map->map);
+	data->map->map = free_tab(data->map->map);
 	free(data->map);
 	exit(0);
 }

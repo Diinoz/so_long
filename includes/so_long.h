@@ -16,7 +16,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include "../mlx/mlx.h"
-# include "libft/libft.h"
+# include "libft_so_long/libft.h"
 # define WIDTH 64
 # define HEIGHT 64
 
@@ -58,7 +58,7 @@ t_map	*create_map(char *file);
 void	check_map_value(t_map *map);
 void	fill_map_value(t_map *map, int i);
 void	parsing(t_map *map);
-void	check_file(char *file, t_map *map);
+void	check_file(char *file);
 void	check_exit(t_map *map);
 void	check_collectibles(t_map *map);
 void	check_path(t_map *map);
@@ -67,7 +67,7 @@ void	create_sprites(t_data *data);
 int		destroy_window(t_data *data);
 void	destroy_window_error(char *error, t_data *data);
 void	free_map(char *error, t_map *map);
-void	free_tab(char **map);
+char	**free_tab(char **map);
 void	create_player(t_data *data);
 
 #endif

@@ -28,17 +28,17 @@ OBJS = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	make -C includes/libft
-	$(CC) $(CFLAGS) -o $(NAME) $(SRC) includes/libft/*.o $(MLXFLAGS) 
+	make -C includes/libft_so_long
+	$(CC) $(CFLAGS) -o $(NAME) $(SRC) includes/libft_so_long/*.o $(MLXFLAGS)
 %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $< -I. -Ilibft
 
 clean:
-	make -C includes/libft clean
+	make -C includes/libft_so_long clean
 	$(RM) $(OBJS)
 
 fclean: clean
-	make -C includes/libft fclean
+	make -C includes/libft_so_long fclean
 	$(RM) $(NAME)
 
 re: fclean all

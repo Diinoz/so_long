@@ -85,6 +85,6 @@ void	check_path(t_map *map)
 	check_collectibles(map);
 	travel_map(i, j, map->path_exit, 'x');
 	check_exit(map);
-	free_tab(map->path);
-	free_tab(map->path_exit);
+	map->path = free_tab(map->path);
+	map->path_exit = free_tab(map->path_exit);
 }

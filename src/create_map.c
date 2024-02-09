@@ -22,7 +22,7 @@ static char	**get_map(int fd, t_map *mapper)
 	mapper = 0;
 	line = get_next_line(fd);
 	if (!line)
-		free_map("This file doesn't exist or is empty.", mapper);
+		return (NULL);
 	while (line)
 	{
 		map_line = ft_strjoin(map_line, line);
@@ -30,10 +30,12 @@ static char	**get_map(int fd, t_map *mapper)
 		line = get_next_line(fd);
 	}
 	close(fd);
+	if (!map_line)
+		return (NULL);
 	map = ft_split(map_line, '\n');
 	free(map_line);
 	if (!map)
-		free_map("Cannot get the map.", mapper);
+		return (NULL);
 	return (map);
 }
 
@@ -45,7 +47,12 @@ void	initialize_map(char *file, t_map *map)
 	map->wall = 0;
 	map->empty_space = 0;
 	map->line = 0;
+	map->map = NULL;
+	map->path = NULL;
+	map->path_exit = NULL;
 	map->map = get_map(open(file, O_RDONLY), map);
+	if (!map->map)
+		free_map("This file doesn't exist or is empty", map);
 	map->path = get_map(open(file, O_RDONLY), map);
 	map->path_exit = get_map(open(file, O_RDONLY), map);
 	map->line_size = (int)ft_strlen(map->map[0]);

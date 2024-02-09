@@ -78,19 +78,25 @@ void	parsing(t_map *map)
 	check_path(map);
 }
 
-void	check_file(char *file, t_map *map)
+void	check_file(char *file)
 {
 	char	*ext;
 	size_t	len;
 
 	ext = ft_strrchr(file, '.');
 	if (ext == 0)
-		free_map("Wrong file name.", map);
+	{
+		write(2, "Error\nWrong file name.", 23);
+		exit(EXIT_FAILURE);
+	}
 	len = ft_strlen(ext);
 	if (len < 4)
 		len = 4;
 	if (!ext || ft_strncmp(ext, ".ber", len) != 0)
-		free_map("Wrong file name.", map);
+	{
+		write(2, "Error\nWrong file name.", 23);
+		exit(EXIT_FAILURE);
+	}
 }
 
 t_map	*create_map(char *file)
@@ -98,7 +104,9 @@ t_map	*create_map(char *file)
 	t_map	*map;
 
 	map = malloc(sizeof(t_map));
-	check_file(file, map);
+	if (!map)
+		free_map("Malloc error", map);
+	check_file(file);
 	initialize_map(file, map);
 	parsing(map);
 	return (map);
