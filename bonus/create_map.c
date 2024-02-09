@@ -10,19 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/so_long.h"
+#include "../includes/so_long_bonus.h"
 
-static char **get_map(int fd, t_map *mapper)
+static char	**get_map(int fd, t_map *mapper)
 {
 	char	*map_line;
 	char	*line;
 	char	**map;
 
 	map_line = 0;
-    mapper = 0;
+	mapper = 0;
 	line = get_next_line(fd);
-    if (!line)
-        free_map("This file doesn't exist or is empty.", mapper);
+	if (!line)
+		return (NULL);
 	while (line)
 	{
 		map_line = ft_strjoin(map_line, line);
@@ -30,23 +30,31 @@ static char **get_map(int fd, t_map *mapper)
 		line = get_next_line(fd);
 	}
 	close(fd);
+	if (!map_line)
+		return (NULL);
 	map = ft_split(map_line, '\n');
 	free(map_line);
 	if (!map)
-		free_map("Cannot get the map.", mapper);
+		return (NULL);
 	return (map);
 }
 
-void initialize_map(char *file, t_map *map)
+void	initialize_map(char *file, t_map *map)
 {
 	map->player = 0;
 	map->exit = 0;
 	map->collectible = 0;
+	map->collectible_at_start = 0;
 	map->wall = 0;
 	map->empty_space = 0;
 	map->line = 0;
+	map->map = NULL;
+	map->path = NULL;
+	map->path_exit = NULL;
 	map->map = get_map(open(file, O_RDONLY), map);
-    map->path = get_map(open(file, O_RDONLY), map);
-    map->path_exit = get_map(open(file, O_RDONLY), map);
+	if (!map->map)
+		free_map("This file doesn't exist or is empty", map);
+	map->path = get_map(open(file, O_RDONLY), map);
+	map->path_exit = get_map(open(file, O_RDONLY), map);
 	map->line_size = (int)ft_strlen(map->map[0]);
 }

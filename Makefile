@@ -23,7 +23,12 @@ RM = rm -f
 SRC = src/create_map.c src/parsing.c src/path.c \
 		src/so_long.c src/create_window.c src/clear.c
 
+SRC_BONUS = bonus/create_map.c bonus/parsing.c bonus/path.c bonus/so_long.c \
+			bonus/create_window.c bonus/clear.c bonus/animations.c
+
 OBJS = $(SRC:.c=.o)
+
+OBJS_BONUS = $(SRC_BONUS:.c=.o)
 
 all: $(NAME)
 
@@ -43,4 +48,9 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+bonus:
+	make -C includes/libft_so_long
+	$(CC) $(CFLAGS) -o $(NAME) $(SRC_BONUS) includes/libft_so_long/*.o \
+	$(MLXFLAGS)
+
+.PHONY: all clean fclean re bonus
