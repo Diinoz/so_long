@@ -56,7 +56,6 @@ void	destroy_window_error(char *error, t_data *data)
 	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	write(2, "Error\n", 6);
 	write(2, error, ft_strlen(error));
-	free(data->mlx_ptr);
 	data->map->map = free_tab(data->map->map);
 	free(data->map);
 	exit(EXIT_FAILURE);
@@ -70,7 +69,6 @@ int	destroy_window(t_data *data)
 	mlx_destroy_image(data->mlx_ptr, data->player.player);
 	mlx_destroy_image(data->mlx_ptr, data->wall);
 	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-	free(data->mlx_ptr);
 	data->map->map = free_tab(data->map->map);
 	free(data->map);
 	exit(0);

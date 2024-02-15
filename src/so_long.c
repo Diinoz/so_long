@@ -58,15 +58,15 @@ void	move_player(t_data *data, int i, int j)
 
 int	key_pressed(int key, t_data *data)
 {
-	if (key == 0)
+	if (key == KEY_A)
 		move_player(data, 0, -1);
-	if (key == 1)
+	if (key == KEY_S)
 		move_player(data, 1, 0);
-	if (key == 2)
+	if (key == KEY_D)
 		move_player(data, 0, 1);
-	if (key == 13)
+	if (key == KEY_W)
 		move_player(data, -1, 0);
-	if (key == 53)
+	if (key == KEY_ESC)
 		destroy_window(data);
 	return (0);
 }
@@ -92,4 +92,5 @@ int	main(int argc, char **argv)
 	mlx_hook(data.win_ptr, 2, 1L << 0, key_pressed, &data);
 	mlx_hook(data.win_ptr, 17, 1L << 0, destroy_window, &data);
 	mlx_loop(data.mlx_ptr);
+	return (0);
 }

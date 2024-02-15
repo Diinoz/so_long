@@ -12,17 +12,19 @@
 
 #include "../includes/so_long.h"
 
-static char	**get_map(int fd, t_map *mapper)
+static char	**get_map(int fd)
 {
 	char	*map_line;
 	char	*line;
 	char	**map;
 
 	map_line = 0;
-	mapper = 0;
 	line = get_next_line(fd);
 	if (!line)
+	{
+		close (fd);
 		return (NULL);
+	}
 	while (line)
 	{
 		map_line = ft_strjoin(map_line, line);
@@ -50,10 +52,10 @@ void	initialize_map(char *file, t_map *map)
 	map->map = NULL;
 	map->path = NULL;
 	map->path_exit = NULL;
-	map->map = get_map(open(file, O_RDONLY), map);
+	map->map = get_map(open(file, O_RDONLY));
 	if (!map->map)
 		free_map("This file doesn't exist or is empty", map);
-	map->path = get_map(open(file, O_RDONLY), map);
-	map->path_exit = get_map(open(file, O_RDONLY), map);
+	map->path = get_map(open(file, O_RDONLY));
+	map->path_exit = get_map(open(file, O_RDONLY));
 	map->line_size = (int)ft_strlen(map->map[0]);
 }

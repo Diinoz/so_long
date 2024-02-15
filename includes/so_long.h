@@ -19,6 +19,11 @@
 # include "libft_so_long/libft.h"
 # define WIDTH 64
 # define HEIGHT 64
+# define KEY_W 13
+# define KEY_A 0
+# define KEY_S 1
+# define KEY_D 2
+# define KEY_ESC 53
 
 typedef struct s_map
 {
@@ -30,8 +35,8 @@ typedef struct s_map
 	int		line;
 	int		line_size;
 	char	**map;
-	char    **path;
-	char    **path_exit;
+	char	**path;
+	char	**path_exit;
 }			t_map;
 
 typedef struct s_player

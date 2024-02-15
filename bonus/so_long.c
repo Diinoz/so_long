@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nicordie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/10 12:28:52 by nicordie          #+#    #+#             */
-/*   Updated: 2024/01/10 12:38:51 by nicordie         ###   ########.fr       */
+/*   Created: 2024/02/15 11:58:41 by nicordie          #+#    #+#             */
+/*   Updated: 2024/02/15 11:58:43 by nicordie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,22 @@ int	check_new_pos(t_data *data, int i, int j)
 {
 	i += data->player.i;
 	j += data->player.j;
-	if ((data->map->map[i][j] == 'E' && data->map->collectible != 0) \
-			|| data->map->map[i][j] == '1')
+	if ((data->map->map[i][j] == 'E' && (data->map->collectible != 0 \
+			|| data->map->enemy != 0)) || data->map->map[i][j] == '1')
 		return (0);
 	data->map->map[data->player.i][data->player.j] = '0';
 	if (data->map->map[i][j] == 'C')
 		data->map->collectible--;
 	if (data->map->collectible == (data->map->collectible_at_start - 1))
 		replace_player (data);
-	if (data->map->collectible == 0)
+	if (data->map->map[i][j] == 'R' && data->map->collectible == 0)
+		data->map->enemy--;
+	if (data->map->collectible == 0 && data->map->enemy == 0)
 		open_exit(data);
-	if (data->map->map[i][j] == 'E' && data->map->collectible == 0)
-	{
-		data->map->map[i][j] = 'P';
+	if (data->map->map[i][j] == 'E' && data->map->collectible == 0 \
+									&& data->map->enemy == 0)
 		return (2);
-	}
-	if (data->map->map[i][j] == 'R')
+	if (data->map->map[i][j] == 'R' && data->map->collectible != 0)
 		return (3);
 	data->map->map[i][j] = 'P';
 	return (1);
@@ -66,15 +66,15 @@ void	move_player(t_data *data, int i, int j)
 
 int	key_pressed(int key, t_data *data)
 {
-	if (key == 0)
+	if (key == KEY_A)
 		move_player(data, 0, -1);
-	if (key == 1)
+	if (key == KEY_S)
 		move_player(data, 1, 0);
-	if (key == 2)
+	if (key == KEY_D)
 		move_player(data, 0, 1);
-	if (key == 13)
+	if (key == KEY_W)
 		move_player(data, -1, 0);
-	if (key == 53)
+	if (key == KEY_ESC)
 		destroy_window(data);
 	return (0);
 }
@@ -100,4 +100,5 @@ int	main(int argc, char **argv)
 	mlx_hook(data.win_ptr, 2, 1L << 0, key_pressed, &data);
 	mlx_hook(data.win_ptr, 17, 1L << 0, destroy_window, &data);
 	mlx_loop(data.mlx_ptr);
+	return (0);
 }

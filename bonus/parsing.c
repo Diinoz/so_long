@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nicordie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/09 16:06:48 by nicordie          #+#    #+#             */
-/*   Updated: 2024/01/10 13:15:36 by nicordie         ###   ########.fr       */
+/*   Created: 2024/02/15 11:58:29 by nicordie          #+#    #+#             */
+/*   Updated: 2024/02/15 11:58:31 by nicordie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	check_map_value(t_map *map)
 		free_map("There is no exit.", map);
 	if (map->collectible == 0)
 		free_map("There is no collectible.", map);
+	if (map->enemy == 0)
+		free_map("There is no enemy.", map);
 }
 
 void	fill_map_value(t_map *map, int i)
@@ -108,7 +110,10 @@ t_map	*create_map(char *file)
 
 	map = malloc(sizeof(t_map));
 	if (!map)
-		free_map("Malloc error", map);
+	{
+		write(2, "Error\nMalloc failed.", 21);
+		exit(EXIT_FAILURE);
+	}
 	check_file(file);
 	initialize_map(file, map);
 	parsing(map);

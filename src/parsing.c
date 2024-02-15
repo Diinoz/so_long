@@ -105,7 +105,10 @@ t_map	*create_map(char *file)
 
 	map = malloc(sizeof(t_map));
 	if (!map)
-		free_map("Malloc error", map);
+	{
+		write(2, "Error\nMalloc failed.", 21);
+		exit(EXIT_FAILURE);
+	}
 	check_file(file);
 	initialize_map(file, map);
 	parsing(map);
